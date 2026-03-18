@@ -37,6 +37,38 @@
             .menu li a:hover{
                 text-decoration:underline;
             }
+            .titol{
+                position:absolute; 
+                top:50%;
+                left:5%;
+                color:white;
+            }
+            #sobre_nosaltres,#carta{
+                padding:20px;
+            }
+            .nosaltres_container1{
+                display:grid;
+                grid-template-columns:200px 1fr;
+                gap:20px;
+                font-size:20px;
+                align-items:center;
+                margin-bottom:25px;
+            }
+            .nosaltres_container2{
+                display:grid;
+                grid-template-columns:1fr 200px;
+                gap:20px;
+                font-size:20px;
+                align-items:center;
+            }
+            .nosaltres_container1 img,
+            .nosaltres_container2 img{
+                width:100%;
+                border-radius:8px;
+            }
+            .carta_container{
+                display:grid;
+            }
             .reservar{
                 position:fixed;
                 bottom:20px;
@@ -54,6 +86,7 @@
         </style>
     </head>
     <body>
+
         <!-- menu -->
         <nav class="nav">
             <ul class="menu">
@@ -62,13 +95,46 @@
                 <li><a href="">GALERIA</a></li>
             </ul>
         </nav>
+
         <header>
-            <img src="imatge.com">
+            <img src="img/restaurant.webp" alt="Restaurant Nou Mon" width="100%" height="auto">
+            <div class="titol">
+                <h1>Restaurant <strong>NOU MON</strong></h1>
+                <p>Restaurant xinès</p>
+            </div>
         </header>
 
-        <form>
+        <main>
+            <section id="sobre_nosaltres">
+                <h2>Sobre Nosaltres</h2>
+                <div class="nosaltres_container1">
+                    <img src="img/img1.png" alt="Sobre nosaltres">
+                    <p> xxxxxx xxxxxx xxxxx xxxxxx xxxxxx xxxx xxxxxx xxxxx xxxxxx xxxxxx xxxxx xxxxxx xxxxxx xxxxx</p>
+                </div>
+                <div class="nosaltres_container2">    
+                    <p>xxxx xxxxxx xxxxx xxxxxx xxxxxx xxx xxxx xxxxx xxxxxx xxxx xxxx xxxxxxxx xxxxxxx xxxx xxxx</p>
+                    <img src="img/img2.png" alt="Sobre nosaltres">
+                </div>
+            </section>
 
-        </form>
+            <section id="carta">
+                <h2>Carta</h2>
+                <div class="carta_container">
+                    <h3>Contingut</h3>
+                    <div class="contingut_container">
+                        <p>xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx</p>
+                        <img src="" alt="contingut">
+                        <img src="" alt="contingut">
+                    </div>
+                    <h3>Contingut</h3>
+                    <div class="contingut_container">
+                        <p>xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx</p>
+                        <img src="" alt="contingut">
+                        <img src="" alt="contingut">
+                    </div>
+                </div>
+            </section>
+        </main>
         <!-- reservar -->
         <a href="#form" class="reservar">RESERVAR</a>
 
