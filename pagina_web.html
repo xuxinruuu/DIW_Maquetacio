@@ -1,241 +1,524 @@
 <!DOCTYPE html>
-<html lang="cat">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Nou Mon</title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/img/rice.png">
+    <link rel="icon" type="image/x-icon" href="img/rice.png">
 
-    <!-- icons -->
+    <!-- Google Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <style>
 
-    /* ALL */
-    :root{
-        --color-principal:#8B1A10;
-        --color-fosc:rgb(45, 43, 43);
-        --color-clar:rgb(252, 238, 220);
-        --mida-font:0.8rem;
+    /* 
+       VARIABLES GLOBALS
+    */
+    :root {
+        --color-principal: #8B1A10;
+        --color-fosc: rgb(45, 43, 43);
+        --color-clar: rgb(252, 238, 220);
+        --mida-font: 0.8rem;
     }
 
-    body{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:'Gill Sans', Calibri, sans-serif;
+    /*   
+       RESET I BASE
+    */
+    * {
+        box-sizing: border-box;
     }
 
-    /* NAV */
-    .nav{
-        position:fixed;
-        top:0;
-        width:100%;
-        z-index:100;
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Gill Sans', Calibri, sans-serif;
     }
 
-    .menu{
-        display:flex;
-        list-style:none;
-        justify-content:flex-end;
+    /*
+       NAV - FIX A DALT
+    */
+    /* El menú és fix a la part superior sempre visible */
+    .nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        /* Transició per efecte shrink */
+        transition: padding 0.3s ease, background-color 0.3s ease;
+    }
+
+    .menu {
+        display: flex;           /* flex per al menú */
+        list-style: none;
+        justify-content: flex-end;
         background-color: var(--color-fosc);
         gap: 1.8rem;
         margin: 0;
-        padding:1.2rem;
+        padding: 1.2rem;
+        transition: padding 0.3s ease;
     }
 
-    .menu li a{
-        text-decoration:none;
-        color:white;
+    .menu li a {
+        text-decoration: none;
+        color: white;
         font-size: var(--mida-font);
+        padding-bottom: 2px;
+        /* Hover subratlla l'element  */
+        border-bottom: 2px solid transparent;
+        transition: border-bottom 0.2s ease;
     }
 
-    /* HEADER */
-    #header{
-        position:relative;
+    /* Hover subratlla el link del menú */
+    .menu li a:hover {
+        border-bottom: 2px solid white;
     }
 
-    #header img{
-        width:100%;
+    /* Classe que afegeix JS quan es fa scroll */
+    .nav.scrolled .menu {
+        padding: 0.5rem 1.2rem;
+    }
+
+    /* 
+       HEADER - CAPÇALERA
+    */
+    /* La capçalera ocupa tota l'amplada amb text posicionat sobre la imatge */
+    #header {
+        position: relative;
+        margin-top: 0;
+    }
+
+    #header img {
+        width: 100%;
+        display: block;
         opacity: 0.6;
     }
 
-    .titol{
-        position:absolute;
-        top:50%;
-        left:10%;
+    /* Text posicionat sobre la imatge, centre esquerra */
+    .titol {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        color: white;
+        /* Animació d'entrada del text */
+        animation: entradaText 2s ease forwards;
     }
 
-    /* SECCIONS */
-    section{
-        padding:2.5rem;
+    .titol h1 {
+        margin: 0;
+        font-size: 2rem;
     }
 
-    /* SOBRE NOSALTRES */
+    .titol p {
+        margin: 0.3rem 0 0;
+        font-size: 1rem;
+    }
+
+    /* 
+       ANIMACIÓ ENTRADA TEXT CAPÇALERA
+       - Keyframes: invisible → apareix pujant → color taronja → blanc fix
+       - Únicament amb CSS, sense JavaScript
+       - animation-fill-mode: forwards manté l'estat final
+    */
+    @keyframes entradaText {
+        /* 0%: text invisible, posició baixa */
+        0% {
+            opacity: 0;
+            transform: translateY(40px) translateY(-50%);
+            color: transparent;
+        }
+        /* 30%: comença a aparèixer mentre puja */
+        30% {
+            opacity: 0.4;
+            transform: translateY(20px) translateY(-50%);
+            color: rgba(255, 140, 0, 0.5);
+        }
+        /* 65%: continua pujant, color taronjós */
+        65% {
+            opacity: 0.8;
+            transform: translateY(5px) translateY(-50%);
+            color: orange;
+        }
+        /* 100%: parat, totalment visible i blanc */
+        100% {
+            opacity: 1;
+            transform: translateY(0) translateY(-50%);
+            color: white;
+        }
+    }
+
+    /*
+       SECCIONS GENERALS
+    */
+    section {
+        padding: 2.5rem;
+        /* Compensació pel nav fix */
+        scroll-margin-top: 3rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    /*
+       SOBRE NOSALTRES
+    */
+    /* Maquetació amb grid (2 columnes: imatge + text) */
     .nosaltres_container1,
-    .nosaltres_container2{
-        display:grid;
-        grid-template-columns:1fr 1fr;
+    .nosaltres_container2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 3rem;
-        align-items:center;
+        align-items: center;
+        margin-bottom: 2rem;
     }
 
+    /* Les imatges han de tenir contorns arrodonits */
     .nosaltres_container1 img,
-    .nosaltres_container2 img{
-        width:100%;
-        max-width:20rem;
+    .nosaltres_container2 img {
+        width: 100%;
+        max-width: 20rem;
+        border-radius: 50%;    /* contorns arrodonits */
     }
 
-    /* CARTA */
-    .carta_container{
-        display:grid;
-        grid-template-columns:35% 65%;
+    /* La 2a fila té la imatge a la dreta */
+    .nosaltres_container2 .nosaltres_text {
+        order: -1;
+    }
+
+    /* 
+       CARTA
+       - Grid amb grid-template-areas
+       - Tots els elements (menys h2) en un únic grid
+     */
+    .carta_container {
+        display: grid;
+        grid-template-columns: 35% 65%;
         grid-template-areas:
             "carta_menu carta_menu"
-            "menu1 contingut1"
-            "menu2 contingut2";
-        gap:1.8rem;
+            "menu1      contingut1"
+            "menu2      contingut2";
+        gap: 1.8rem;
+        border: 1px solid #ddd;
+        padding: 1rem;
     }
 
-    .carta_menu{ grid-area:carta_menu; }
-    .menu1{ grid-area:menu1; }
-    .menu2{ grid-area:menu2; }
-    .contingut1{ grid-area:contingut1; }
-    .contingut2{ grid-area:contingut2; }
+    .carta_menu  { grid-area: carta_menu; text-align: center; font-size: 1.2rem; font-weight: bold; }
+    .menu1       { grid-area: menu1; }
+    .menu2       { grid-area: menu2; }
+    .contingut1  { grid-area: contingut1; }
+    .contingut2  { grid-area: contingut2; }
 
-    .img_comida{
-        display:flex;
-        gap:1rem;
+    /* Imatges de menú amb overlay de text */
+    .img_comida {
+        display: flex;
+        gap: 1rem;
     }
 
-    .img_comida div{
-        flex:1;
+    /* Cada imatge del menú amb posició relativa per al text overlay */
+    .img_comida_item {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
     }
 
-    .img_comida img{
-        width:100%;
+    .img_comida_item img {
+        width: 100%;
+        display: block;
     }
 
-    /* =======================
-       GALERIA
-    ======================= */
-    .galeria_container{
-        display:flex;
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:0.5rem;
+    /* Text al centre inferior de cada imatge de carta */
+    .img_overlay_text {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.3rem 0;
+        font-size: 0.85rem;
     }
 
-    .galeria_container img{
-        width:10rem;
+    /* 
+       GALERIA DE FOTOS
+       - Flex wrap
+       - Border per defecte a cada imatge
+       - Imatges 1,4,5,8 més fosques
+       - Hover: border i imatge més fosca
+     */
+    .galeria_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
     }
 
-    /* =======================
+    /* Cada imatge de la galeria amb contenidor per poder fer overflow:hidden */
+    .galeria_item {
+        overflow: hidden;   /* evita que la imatge surti fora al fer hover  */
+        border: 3px solid #ccc;
+    }
+
+    .galeria_item img {
+        width: 10rem;
+        display: block;
+        /* Transició galeria: scale + rotate + grayscale */
+        transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    /* Hover galeria: escala, rotació i escala de grisos */
+    .galeria_item:hover img {
+        transform: scale(1.1) rotate(3deg);
+        filter: grayscale(100%);
+    }
+
+    /* Imatges 1, 4, 5 i 8 han de ser més fosques
+       S'usa nth-child per seleccionar-les */
+    .galeria_item:nth-child(1) img,
+    .galeria_item:nth-child(4) img,
+    .galeria_item:nth-child(5) img,
+    .galeria_item:nth-child(8) img {
+        filter: brightness(0.6);
+    }
+
+    /* Hover a les imatges fosques: grayscale a sobre del brightness */
+    .galeria_item:nth-child(1):hover img,
+    .galeria_item:nth-child(4):hover img,
+    .galeria_item:nth-child(5):hover img,
+    .galeria_item:nth-child(8):hover img {
+        filter: brightness(0.6) grayscale(100%);
+        transform: scale(1.1) rotate(3deg);
+    }
+
+    /* Hover per a la resta d'imatges: border i més fosca */
+    .galeria_item:hover {
+        border-color: var(--color-principal);
+    }
+
+    /* 
+       VÍDEO
+     */
+    #video_section {
+        background-color: #111;
+        color: white;
+    }
+
+    /* Contenidor del vídeo centrat i responsive */
+    .video_wrapper {
+        position: relative;
+        display: inline-block;
+        /* Responsiu: mai scroll horitzontal */
+        max-width: 100%;
+        width: 60%;
+        /* Centrat */
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* El vídeo s'adapta a l'amplada del contenidor */
+    .video_wrapper video {
+        width: 100%;
+        display: block;
+    }
+
+    /* Capa de controls personalitzats sobre el vídeo
+       Fons fosc i transparent, posicionada sobre el vídeo */
+    .video_controls {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        gap: 0.3rem;
+        padding: 0.3rem;
+    }
+
+    /* Cada icona de control */
+    .video_controls span {
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        /* Transició personalitzada amb 3 propietats
+           color + transform + text-shadow */
+        transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    /* Hover icones vídeo: shadow */
+    .video_controls span:hover {
+        color: orange;
+        transform: scale(1.2);
+        text-shadow: 0 0 8px rgba(255, 165, 0, 0.8);
+    }
+
+    /* 
+       ANIMACIÓ ADDICIONAL 4 FRAMES
+       S'aplica al títol de la secció vídeo
+       Canvia: color + letter-spacing + opacity
+     */
+    @keyframes titolVideo {
+        0%   { color: white;  letter-spacing: 0;      opacity: 0.3; }
+        33%  { color: orange; letter-spacing: 0.1rem; opacity: 0.7; }
+        66%  { color: gold;   letter-spacing: 0.3rem; opacity: 0.9; }
+        100% { color: white;  letter-spacing: 0.15rem; opacity: 1; }
+    }
+
+    /* Apliquem l'animació al h2 de la secció vídeo */
+    #video_section h2 {
+        animation: titolVideo 2s ease forwards;
+    }
+
+    /* 
        FORMULARI
-    ======================= */
-    #formulari{
-        background-color:var(--color-clar);
+     */
+    #formulari {
+        background-color: var(--color-clar);
     }
 
-    .form_container{
-        display:grid;
-        grid-template-columns:40% 40%;
+    .form_container {
+        display: grid;
+        grid-template-columns: 40% 40%;
         grid-template-areas:
-            "nom num"
-            "data hora"
+            "nom       num"
+            "data      hora"
             "descripcio descripcio"
-            "button button";
-        gap:1rem;
-        justify-content:center;
+            "button    button";
+        gap: 1rem;
+        justify-content: center;
     }
 
-    .nom{grid-area:nom;}
-    .num{grid-area:num;}
-    .data{grid-area:data;}
-    .hora{grid-area:hora;}
-    .descripcio{grid-area:descripcio;}
+    .nom        { grid-area: nom; }
+    .num        { grid-area: num; }
+    .data_camp  { grid-area: data; }
+    .hora_camp  { grid-area: hora; }
+    .descripcio { grid-area: descripcio; }
 
-    input, textarea{
-        width:100%;
-        padding:0.5rem;
+    input, textarea {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: var(--mida-font);
     }
 
-    .button{
-        grid-area:button;
-        background-color:var(--color-principal);
-        color:white;
-        border:none;
-        padding:1rem;
+    /* Botó reservar dins formulari */
+    .button {
+        grid-area: button;
+        background-color: var(--color-principal);
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: var(--mida-font);
     }
 
-    /* =======================
+    .button:hover {
+        background-color: #6a110c;
+    }
+
+    /* 
        FOOTER
-    ======================= */
-    .footer_container{
-        display:flex;
-        justify-content:space-between;
-        padding:1rem;
-        background-color:var(--color-fosc);
-        color:white;
+       - Flex entre logotip, correu i telèfon
+       - Icones de Google Materials (no imatges)
+     */
+    .footer_container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: var(--color-fosc);
+        color: white;
+        font-size: var(--mida-font);
     }
 
-    .logo img{
-        width:3rem;
+    /* Cada element del footer amb icona + text alineats */
+    .footer_item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
     }
 
-    /* =======================
-       BOTÓ FIX
-    ======================= */
-    .reservar{
-        position:fixed;
-        bottom:1rem;
-        right:1rem;
-        background-color:var(--color-principal);
-        color:white;
-        padding:1rem;
-        text-decoration:none;
+    .footer_item .material-icons {
+        font-size: 1.2rem;
     }
 
-    /* =======================
-       TABLET (≤768px)
-    ======================= */
-    @media (max-width: 768px){
+    /* Logo al footer */
+    .logo img {
+        width: 3rem;
+    }
 
-        .menu{
-            justify-content:center;
+    /* 
+       BOTÓ FIX RESERVAR
+       - Sempre visible, part inferior dreta
+     */
+    .reservar {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: var(--color-principal);
+        color: white;
+        padding: 1rem;
+        text-decoration: none;
+        font-size: var(--mida-font);
+        z-index: 200;
+    }
+
+    .reservar:hover {
+        background-color: #6a110c;
+    }
+
+    /* 
+       RESPONSIVE - TABLET (≤768px) 
+     */
+    @media (max-width: 768px) {
+
+        /* Menú centrat en tablets */
+        .menu {
+            justify-content: center;
         }
 
-        .footer_container{
-            flex-direction:column;
-            text-align:center;
+        /* Footer en columna, centrat. Logo s'amaga */
+        .footer_container {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.8rem;
         }
 
-        .logo{
-            display:none;
+        .logo {
+            display: none;
+        }
+
+        /* Vídeo més ample en tablet */
+        .video_wrapper {
+            width: 85%;
         }
     }
 
-    /* =======================
-       MÒBIL (≤576px)
-    ======================= */
-    @media (max-width: 576px){
+    /* 
+       RESPONSIVE - MÒBIL (≤576px) 
+     */
+    @media (max-width: 576px) {
 
-        /* NAV vertical */
-        .menu{
-            flex-direction:column;
-            align-items:center;
+        /* NAV en columna vertical */
+        .menu {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        /* SOBRE NOSALTRES */
+        /* SOBRE NOSALTRES: 1 columna */
         .nosaltres_container1,
-        .nosaltres_container2{
-            grid-template-columns:1fr;
+        .nosaltres_container2 {
+            grid-template-columns: 1fr;
         }
 
-        /* CARTA */
-        .carta_container{
-            grid-template-columns:1fr;
+        /* El text recupera l'ordre natural en mòbil */
+        .nosaltres_container2 .nosaltres_text {
+            order: 0;
+        }
+
+        /* CARTA: 1 columna */
+        .carta_container {
+            grid-template-columns: 1fr;
             grid-template-areas:
                 "carta_menu"
                 "menu1"
@@ -244,33 +527,40 @@
                 "contingut2";
         }
 
-        /* IMATGES */
-        .img_comida{
-            flex-direction:column;
+        /* Imatges del menú en columna */
+        .img_comida {
+            flex-direction: column;
         }
 
-        /* GALERIA */
-        .galeria_container{
-            flex-direction:column;
+        /* GALERIA: imatges al centre, salten a sota */
+        .galeria_container {
+            flex-direction: column;
+            align-items: center;
         }
 
-        .galeria_container img{
-            width:100%;
+        .galeria_item img {
+            width: 90vw;
         }
 
-        /* FORMULARI (2 columnes com wireframe) */
-        .form_container{
-            grid-template-columns:1fr 1fr;
+        /* FORMULARI: 2 columnes (com el wireframe mòbil) */
+        .form_container {
+            grid-template-columns: 1fr 1fr;
         }
 
-        /* FOOTER */
-        .footer_container{
-            flex-direction:column;
-            text-align:center;
+        /* Vídeo ample complet */
+        .video_wrapper {
+            width: 100%;
         }
 
-        .logo{
-            display:none;
+        /* FOOTER: columna, centrat, sense logo */
+        .footer_container {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.8rem;
+        }
+
+        .logo {
+            display: none;
         }
     }
 
@@ -279,7 +569,11 @@
 
 <body>
 
-<nav class="nav">
+<!-- 
+     NAV - Menú fix superior
+     JS afegirà la classe 'scrolled' en fer scroll
+ -->
+<nav class="nav" id="navbar">
     <ul class="menu">
         <li><a href="#sobre_nosaltres">NOSALTRES</a></li>
         <li><a href="#carta">CARTA</a></li>
@@ -287,69 +581,271 @@
     </ul>
 </nav>
 
+<!-- 
+     HEADER - Capçalera
+     Imatge a tota l'amplada amb text posicionat sobre ella
+     Animació CSS d'entrada del text
+ -->
 <header id="header">
-    <img src="/img/restaurant.webp">
+    <img src="img/restaurant.webp" alt="Imatge del restaurant">
+    <!-- Text posicionat sobre la imatge, centre esquerra -->
     <div class="titol">
-        <h1>Restaurant ELS COBERTS</h1>
+        <h1>Restaurant <strong>els Coberts</strong></h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
 </header>
 
 <main>
 
-<section id="sobre_nosaltres">
-    <h2>Sobre Nosaltres</h2>
-    <div class="nosaltres_container1">
-        <img src="img/img1.png">
-        <p>Lorem ipsum...</p>
-    </div>
-</section>
+    <!-- 
+         SOBRE NOSALTRES
+         - 2 files: imatge+text i text+imatge
+         - Grid de 2 columnes
+         - Imatges amb border-radius arrodonit
+     -->
+    <section id="sobre_nosaltres">
+        <h2>Sobre Nosaltres</h2>
 
-<section id="carta">
-    <h2>Carta</h2>
-    <div class="carta_container">
-        <div class="carta_menu">Menú</div>
+        <!-- Fila 1: imatge esquerra, text dreta -->
+        <div class="nosaltres_container1">
+            <img src="img/img1.png" alt="Interior del restaurant">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+               quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+               consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+               dolore eu fugiat nulla pariatur.</p>
+        </div>
 
-        <div class="menu1"><img src="/img/menu1.jpeg"></div>
-        <div class="contingut1">Contingut</div>
+        <!-- Fila 2: text esquerra, imatge dreta -->
+        <div class="nosaltres_container2">
+            <img src="img/img2.png" alt="Cuina del restaurant">
+            <p class="nosaltres_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+               quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+               consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+               dolore eu fugiat nulla pariatur.</p>
+        </div>
+    </section>
 
-        <div class="menu2"><img src="/img/menu2.jpeg"></div>
-        <div class="contingut2">Contingut</div>
-    </div>
-</section>
+    <!-- 
+         CARTA
+         - Grid amb grid-template-areas
+         - Tots els elements formen part d'un únic grid
+         - Overlay de text a les imatges
+     -->
+    <section id="carta">
+        <h2>Carta</h2>
+        <div class="carta_container">
 
-<section id="galeria">
-    <h2>Galeria</h2>
-    <div class="galeria_container">
-        <img src="/img/galeria.png">
-        <img src="/img/galeria.png">
-    </div>
-</section>
+            <!-- Capçalera del menú (ocupa les 2 columnes) -->
+            <div class="carta_menu">Menú</div>
 
-<section id="formulari">
-    <h2>Reserva</h2>
-    <form>
+            <!-- Menú 1 -->
+            <div class="menu1">Menú 1</div>
+            <div class="contingut1">
+                <p><strong>Contingut</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                   tempor incididunt ut labore et dolore magna aliqua.</p>
+                <!-- Imatges amb text overlay al centre inferior -->
+                <div class="img_comida">
+                    <div class="img_comida_item">
+                        <img src="img/ensalada.png" alt="Amanida">
+                        <!-- Text overlay a la part inferior central de la imatge -->
+                        <div class="img_overlay_text">Amanida</div>
+                    </div>
+                    <div class="img_comida_item">
+                        <img src="img/entrantes.png" alt="Entrants">
+                        <div class="img_overlay_text">Entrants</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menú 2 -->
+            <div class="menu2">Menú 2</div>
+            <div class="contingut2">
+                <p><strong>Contingut</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                   tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div class="img_comida">
+                    <div class="img_comida_item">
+                        <img src="img/fideos.png" alt="Fideus">
+                        <div class="img_overlay_text">Fideus</div>
+                    </div>
+                    <div class="img_comida_item">
+                        <img src="img/sopa.png" alt="Sopa">
+                        <div class="img_overlay_text">Sopa</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 
+         GALERIA DE FOTOS
+         - Flex wrap
+         - Border a cada imatge
+         - Imatges 1,4,5,8 més fosques
+         - Hover amb transició scale+rotate+grayscale
+         - overflow:hidden al contenidor perquè la imatge no surti fora
+     -->
+    <section id="galeria">
+        <h2>Galeria d'imatges</h2>
+        <div class="galeria_container">
+            <!-- 8 imatges. Les 1a, 4a, 5a i 8a són més fosques via CSS nth-child -->
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 1"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 2"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 3"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 4"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 5"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 6"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 7"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 8"></div>
+        </div>
+    </section>
+
+    <!-- 
+         VÍDEO
+         - Apartat nou després de la galeria
+         - Vídeo centrat, responsive, parat i silenciat per defecte
+         - Controls personalitzats amb icones de Google Material Icons
+         - Controls per defecte del navegador amagats
+     -->
+    <section id="video_section">
+        <h2>Vídeos del restaurant</h2>
+
+        <!-- Contenidor centrat i responsive -->
+        <div class="video_wrapper" id="videoWrapper">
+
+            <!-- El vídeo NO té controls per defecte
+                 Està parat (sense autoplay) i silenciat (muted) -->
+            <video id="myVideo" muted>
+                <source src="video/restaurant.mp4" type="video/mp4">
+                El teu navegador no suporta vídeo HTML5.
+            </video>
+
+            <!-- Capa de controls personalitzats sobre el vídeo
+                 Fons fosc i transparent, icones de Google Material Icons -->
+            <div class="video_controls">
+                <!-- Play: posa el vídeo en marxa -->
+                <span class="material-icons" id="btnPlay"
+                      onclick="document.getElementById('myVideo').play()"
+                      title="Play">play_circle</span>
+
+                <!-- Pause: pausa el vídeo -->
+                <span class="material-icons" id="btnPause"
+                      onclick="document.getElementById('myVideo').pause()"
+                      title="Pausa">pause_circle</span>
+
+                <!-- Volum: treu el silenci -->
+                <span class="material-icons" id="btnVolum"
+                      onclick="document.getElementById('myVideo').muted = false"
+                      title="Activar so">volume_up</span>
+
+                <!-- Silenci: posa el vídeo en silenci -->
+                <span class="material-icons" id="btnMute"
+                      onclick="document.getElementById('myVideo').muted = true"
+                      title="Silenciar">volume_off</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 
+         FORMULARI
+         - Grid amb grid-template-areas
+         - Botó Reservar
+     -->
+    <section id="formulari">
+        <h2>Reserva</h2>
         <div class="form_container">
-            <div class="nom"><input type="text" placeholder="Nom"></div>
-            <div class="num"><input type="number" placeholder="Persones"></div>
-            <div class="data"><input type="date"></div>
-            <div class="hora"><input type="time"></div>
-            <div class="descripcio"><textarea></textarea></div>
+            <div class="nom">
+                <label for="inp_nom">Nom</label>
+                <input type="text" id="inp_nom" placeholder="Nom">
+            </div>
+            <div class="num">
+                <label for="inp_num">Número de persones</label>
+                <input type="number" id="inp_num" placeholder="Persones" min="1">
+            </div>
+            <div class="data_camp">
+                <label for="inp_data">Data</label>
+                <input type="date" id="inp_data">
+            </div>
+            <div class="hora_camp">
+                <label for="inp_hora">Hora</label>
+                <input type="time" id="inp_hora">
+            </div>
+            <div class="descripcio">
+                <label for="inp_desc">Descripció</label>
+                <textarea id="inp_desc" rows="4"></textarea>
+            </div>
             <button class="button">Reservar</button>
         </div>
-    </form>
-</section>
+    </section>
 
 </main>
 
+<!-- 
+     FOOTER
+     - Icones de Google Materials per correu i telèfon
+     - Logotip a l'esquerra
+     - Flex entre elements
+ -->
 <footer>
     <div class="footer_container">
-        <div>restaurant@gmail.com</div>
-        <div>666 66 66 66</div>
-        <div class="logo"><img src="/svg/rice.svg"></div>
+        <!-- Logotip a l'esquerra -->
+        <div class="logo">
+            <img src="img/rice.png" alt="Logo restaurant">
+        </div>
+
+        <!-- Correu amb icona de Google Materials (no imatge) -->
+        <div class="footer_item">
+            <span class="material-icons">email</span>
+            <span>restaurant@gmail.com</span>
+        </div>
+
+        <!-- Telèfon amb icona de Google Materials (no imatge) -->
+        <div class="footer_item">
+            <span class="material-icons">phone</span>
+            <span>666 66 66 66</span>
+        </div>
     </div>
 </footer>
 
+<!-- Botó fix RESERVAR sempre visible -->
 <a href="#formulari" class="reservar">RESERVAR</a>
+
+<!-- JAVASCRIPT -->
+<script>
+    // 
+    // Ex5: Menú shrink en fer scroll (navbar_shrink_scroll)
+    // S'afegeix la classe 'scrolled' quan es baixa per la pàgina
+    // La transició CSS del .nav ja gestiona l'animació del canvi de padding
+    // 
+    window.addEventListener('scroll', function() {
+        var navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // 
+    // Ex5: Play automàtic del vídeo quan arriba a la secció del vídeo
+    // S'usa getBoundingClientRect per detectar quan el vídeo és visible
+    // 
+    window.addEventListener('scroll', function() {
+        var video = document.getElementById('myVideo');
+        var rect = video.getBoundingClientRect();
+        // Quan la part superior del vídeo entra dins de la pantalla
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            if (video.paused) {
+                video.play();
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
