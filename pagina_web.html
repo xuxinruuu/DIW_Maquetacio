@@ -45,6 +45,8 @@
         top: 0;
         width: 100%;
         z-index: 100;
+        /* Transició shrink menú - Ex5 */
+        transition: padding 0.3s ease, background-color 0.3s ease;
     }
 
     .menu {
@@ -55,6 +57,13 @@
         gap: 1.8rem;
         margin: 0;
         padding: 1.2rem;
+        /* EX5 Transició */
+        transition: padding 0.3s ease;
+    }
+
+    /* Classe afegida per JS quan es fa scroll - Ex5 (navbar_shrink_scroll) */
+    .nav.scrolled .menu {
+        padding: 0.5rem 1.2rem;
     }
 
     .menu li a {
@@ -62,8 +71,8 @@
         color: white;
         font-size: var(--mida-font);
         padding-bottom: 2px;
-        /* Hover subratlla l'element */
         border-bottom: 2px solid transparent;
+        /* EX5 Transició */
         transition: border-bottom 0.2s ease;
     }
 
@@ -96,6 +105,33 @@
         left: 10%;
         transform: translateY(-50%);
         color: white;
+        /* EX2 Animació */
+        animation: entradaText 2s ease forwards;
+
+    }
+
+    /* EX2 ANIMACIÓ */
+    @keyframes entradaText {
+        0% {
+            opacity: 0;
+            transform: translateY(40px) translateY(-50%);
+            color: transparent;
+        }
+        30% {
+            opacity: 0.4;
+            transform: translateY(20px) translateY(-50%);
+            color: rgba(255, 140, 0, 0.5);
+        }
+        65% {
+            opacity: 0.8;
+            transform: translateY(5px) translateY(-50%);
+            color: orange;
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) translateY(-50%);
+            color: white;
+        }
     }
 
     .titol h1 {
@@ -218,14 +254,20 @@
     .galeria_item img {
         width: 100%;
         display: block;
+        object-fit: cover;
+        height: 8rem;
+        /* EX1 TRANSICIÓ */
+        transition: transform 0.4s ease, filter 0.4s ease;
     }
 
     .galeria_item:hover {
         border-color: var(--color-principal);
     }
 
+    /* EX1 Hover */
     .galeria_item:hover img {
-        filter: brightness(0.5);
+        transform: scale(1.1) rotate(3deg);
+        filter: grayscale(100%) brightness(0.5);
     }
 
     .galeria_item:nth-child(1) img,
@@ -239,7 +281,68 @@
     .galeria_item:nth-child(4):hover img,
     .galeria_item:nth-child(5):hover img,
     .galeria_item:nth-child(8):hover img {
-        filter: brightness(0.4);
+    /*EX1 Hover*/
+        transform: scale(1.1) rotate(3deg);
+        filter: grayscale(100%) brightness(0.4);
+    }
+
+
+    /* EX3, EX4 - VÍDEO */
+    #video_section {
+        background-color: #111;
+        color: white;
+    }
+
+    /* EX2 ANIMACIÓ */
+    @keyframes titolVideo {
+        0%   { color: white;  letter-spacing: 0;       opacity: 0.3; }
+        33%  { color: orange; letter-spacing: 0.1rem;  opacity: 0.7; }
+        66%  { color: gold;   letter-spacing: 0.3rem;  opacity: 0.9; }
+        100% { color: white;  letter-spacing: 0.15rem; opacity: 1;   }
+    }
+
+    #video_section h2 {
+        animation: titolVideo 2s ease forwards;
+    }
+
+    /* EX3 */
+    .video_wrapper {
+        position: relative;
+        width: 60%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .video_wrapper video {
+        width: 100%;
+        display: block;
+    }
+
+    /* EX4 */
+    .video_controls {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        gap: 0.3rem;
+        padding: 0.3rem;
+    }
+
+    .video_controls span {
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        /* EX1 TRANSICIÓ */
+        transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    /* EX4 */
+    .video_controls span:hover {
+        color: orange;
+        transform: scale(1.2);
+        text-shadow: 0 0 8px rgba(255, 165, 0, 0.8);
     }
 
 
@@ -313,8 +416,10 @@
         font-size: 1.2rem;
     }
 
+    /* Logo (SVG) */
     .logo img {
         width: 3rem;
+        filter: invert(1);
     }
 
 
@@ -370,6 +475,11 @@
             justify-content: flex-start;
         }
 
+        /* Vídeo més ample en tablet */
+        .video_wrapper {
+            width: 85%;
+        }
+
         /* FOOTER: sense logo, elements centrats */
         .footer_container {
             flex-direction: column;
@@ -419,6 +529,11 @@
 
         .galeria_item img {
             height: 12rem;
+        }
+
+        /* Vídeo ample complet en mòbil */
+        .video_wrapper {
+            width: 100%;
         }
 
         /* FORMULARI: 2 columnes */
@@ -579,6 +694,52 @@
 
     </section>
 
+    <!-- EX3/EX4 - VÍDEO -->
+    <section id="video_section">
+
+        <h2>Vídeos del restaurant</h2>
+
+        <div class="video_wrapper" id="videoWrapper">
+
+            <!-- video -->
+            <video id="myVideo" muted>
+                <source src="video/restaurant.mp4" type="video/mp4">
+                El teu navegador no suporta vídeo HTML5.
+            </video>
+
+            <div class="video_controls">
+                <!-- Play -->
+                <span class="material-icons"
+                      onclick="document.getElementById('myVideo').play()"
+                      title="Play"
+                      role="button"
+                      aria-label="Play">play_circle</span>
+
+                <!-- Pause -->
+                <span class="material-icons"
+                      onclick="document.getElementById('myVideo').pause()"
+                      title="Pausa"
+                      role="button"
+                      aria-label="Pausa">pause_circle</span>
+
+                <!-- Volum -->
+                <span class="material-icons"
+                      onclick="document.getElementById('myVideo').muted = false"
+                      title="Activar so"
+                      role="button"
+                      aria-label="Activar so">volume_up</span>
+
+                <!-- Silenci -->
+                <span class="material-icons"
+                      onclick="document.getElementById('myVideo').muted = true"
+                      title="Silenciar"
+                      role="button"
+                      aria-label="Silenciar">volume_off</span>
+            </div>
+
+        </div>
+    </section>
+
     <!-- FORMULARI -->
     <section id="formulari">
 
@@ -645,6 +806,42 @@
 
 <!-- Botó reservar -->
 <a href="#formulari" class="reservar">RESERVAR</a>
+
+
+<!-- EX5 - JAVASCRIPT -->
+<script>
+
+    /* Ex5.1 - Menú shrink amb scroll */
+    window.addEventListener('scroll', function() {
+
+        var navbar = document.getElementById('navbar');
+
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+
+    });
+
+    /* 
+       Ex5.2 - Play automàtic del vídeo quan arriba a la secció
+       Detecta quan el vídeo és visible amb getBoundingClientRect
+    */
+    window.addEventListener('scroll', function() {
+
+        var video = document.getElementById('myVideo');
+        var rect = video.getBoundingClientRect();
+
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            if (video.paused) {
+                video.play();
+            }
+        }
+
+    });
+
+</script>
 
 </body>
 </html>
