@@ -1,442 +1,550 @@
 <!DOCTYPE html>
-<html lang="cat">
-    <head>
-        <title>Restaurant Nou Mon</title>
-        <!-- favicon -->
-        <link rel="icon" type="image/x-icon" href="/img/rice.png">
-        <!-- icons -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <style>
-            :root{
-                --color-principal:#8B1A10;
-                --color-fosc:rgb(45, 43, 43);
-                --color-clar:rgb(252, 238, 220);
-                --mida-font:0.8rem;
-            }
-            body{
-                margin:0;
-                padding:0;
-                box-sizing:border-box;
-                font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif 
-            }
-            
-            /*NAV*/
-            .nav{
-                position:fixed;
-                top:0;
-                width:100%;
-                z-index:100;
-            }
-            .menu{
-                display:flex;
-                list-style:none;
-                justify-content:flex-end;
-                background-color: var(--color-fosc);
-                gap: 1.8rem;
-                margin: 0;
-                padding:1.2rem;
-            }
-            .menu li a{
-                text-decoration:none;
-                color:white;
-                font-size: var(--mida-font);
-                transition: all 0.3s;
-            }
-            .menu li a:hover{
-                text-decoration:underline;
-            }
-            
-            /*HEADER*/
-            #header{
-                position:relative;
-            }
-            #header img{
-                width:100%;
-                opacity: 0.6;
-            }
-            .titol{
-                position:absolute;
-                top:50%; 
-                left:10%;
-            }
-            .titol h1{
-                font-size:2.2rem;
-            }
-            .titol p{
-                font-size:1.5rem;
-            }
-            
-            /*SECTION*/
-            section{
-                padding:2.5rem 3rem 1rem 2rem;
-            }
-            
-            /*SOBRE NOSALTRES*/
-            .nosaltres_container1,
-            .nosaltres_container2{
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap: 3rem;
-                font-size:var(--mida-font);
-                align-items:center;
-            }
-            .nosaltres_container1 img,
-            .nosaltres_container2 img{
-                width:100%;
-                max-width:20rem;
-                border-radius:0.5rem;
-            }
-            
-            /*CARTA*/
-            .carta_container{
-                display:grid;
-                grid-template-columns:35% 65%;
-                grid-template-areas:
-                            "carta_menu carta_menu"
-                            "menu1 contingut1"
-                            "menu2 contingut2";
-                gap: 1.8rem;                            
-            }
-            .carta_menu{
-                font-size:var(--mida-font);
-            }
-            .menu1 img,
-            .menu2 img {
-                width:100%;
-                height:100%
-            }
-            .img_comida{
-                display:flex;
-                gap:1.2rem;
-            }
-            .img_comida1, 
-            .img_comida2 {
-                position:relative;
-                flex:1;
-                
-            }
-            .img_comida img{
-                display:block;
-                width:100%;
-                height:auto;
-            }
-            .img_comida .text {
-                position: absolute; 
-                bottom:0; 
-                background: black;
-                background: #00000080; /* Black see-through */
-                width: 100%;
-                transition: .5s ease;
-                opacity:0;
-                color:white;
-                font-size: var(--mida-font);
-                padding: 0.5rem;
-                text-align: center;
-            }
-            .img_comida1:hover .text,
-            .img_comida2:hover .text {
-                opacity: 1;
-            }
-            
-            .carta_menu{ grid-area:carta_menu; }
-            .menu1{ grid-area:menu1; }
-            .menu2{ grid-area:menu2; }
-            .contingut1{ grid-area:contingut1; }
-            .contingut2{ grid-area:contingut2; }
-            
-            /*GALERIA*/
-            .galeria_container{
-                display:flex;
-                flex-wrap:wrap;
-                justify-content:center;
-                gap:0.5rem;
-            }
-            .galeria_container img{
-                width:10rem;
-                border:0.1rem solid grey;
-                border-radius:0.5rem;
-            }
-            .galeria_container img:hover{
-                border:0.2rem solid black;
-                border-radius:0.5rem;
-                filter:brightness(30%);
-            }
-            .galeria_container img:nth-child(1),
-            .galeria_container img:nth-child(4),
-            .galeria_container img:nth-child(5),
-            .galeria_container img:nth-child(8){
-                filter:brightness(50%)
-            }
-            /*FORMULARI*/
-            #formulari{
-                background-color:var(--color-clar);
-                padding:0.5rem 3rem 0.5rem 1.8rem;
-            }
-            .form_container{
-                display:grid;
-                justify-content: center;
-                grid-template-columns: 40% 40%;
-                grid-template-areas:
-                                "nom num"
-                                "data hora"
-                                "descripcio descripcio"
-                                "button button";
-                gap: 2rem;
-                font-size: var(--mida-font);
-            }
-            .nom { grid-area:nom }
-            .num { grid-area:num }
-            .data { grid-area:data }
-            .hora { grid-area:hora }
-            .descripcio { grid-area:descripcio}
-            .d_textarea { grid-area:d_textarea}
-            .button { grid-area: button}
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Nou Mon</title>
 
-            .form_container label{
-                display:block;
-                font-size: var(--mida-font);
-                margin:2rem 0 0.5rem 2rem;
-            }
-            .form_container input{
-                width:100%;
-                padding:0.5rem;
-                border-radius:3rem;
-                font-size:var(--mida-font);
-            }
-            .form_container textarea{
-                resize:none;
-                width:100%;
-                padding:0.5rem;
-                border-radius:3rem;
-                font-size:var(--mida-font)
-            }
-            .button {
-                font-size:var(--mida-font);
-                background-color:var(--color-principal);
-                color:white;
-                margin-top:1.2rem;
-                border:none;
-                padding:1rem;
-                width:100%;
-            }
-            .button:hover {
-                background-color:var(--color-fosc);
-            }
-            /*FOOTER*/
-            .footer_container{
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                padding:1.2rem;
-                background-color: var(--color-fosc);
-            }
-            .email_tel{
-                display:flex;
-                gap:0.5rem;
-            }
-            .email, .tel{
-                display:flex;
-                gap:0.1rem;
-                color:white;
-            }
-            .logo img{
-                width:3rem
-            }
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="img/rice.png">
 
-            /*BOTÓ RESERVAR*/
-            .reservar{
-                position:fixed;
-                bottom:1rem;
-                right:1rem;
-                text-decoration:none;
-                background-color: var(--color-principal);
-                color:white;
-                padding:1.2rem;
-                font-size:var(--mida-font);
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-            }
-            .reservar:hover{
-                text-decoration:underline;
-            }
-            /* MEDIA */
-            @media (max-width:700px){
-                .titol h1{
-                    font-size:1.5rem;
-                }
-                .titol p{
-                    font-size:1rem;
-                }
-                .nosaltres_container1,
-                .nosaltres_container2{
-                    grid-template-columns:1fr
-                }
-                .carta_container{
-                    grid-template-columns: 1fr;
-                    grid-template-areas:"carta_menu"
-                                        "menu1"
-                                        "contingut1"
-                                        "menu2"
-                                        "contingut2"
-                }
-                .form_container{
-                    grid-template-columns:1fr;
-                    grid-template-areas:"nom"
-                                        "num"
-                                        "data"
-                                        "hora"
-                                        "descripcio"
-                                        "button"
-                }
-            }
-        </style>
-    </head>
-    <body>
+    <style>
 
-        <!-- NAV -->
-        <nav class="nav">
-            <ul class="menu">
-                <li><a href="#sobre_nosaltres">NOSALTRES</a></li>
-                <li><a href="#carta">CARTA</a></li>
-                <li><a href="#galeria">GALERIA</a></li>
-            </ul>
-        </nav>
+    /* VARIABLES GLOBALS */
+    :root {
+        --color-principal: #8B1A10;
+        --color-fosc: rgb(45, 43, 43);
+        --color-clar: rgb(252, 238, 220);
+        --mida-font: 0.8rem;
+    }
 
-        <!-- HEADER -->
-        <header id="header">
-            <img src="/img/restaurant.webp" alt="Restaurant Els Corbets">
-            <div class="titol">
-                <h1>Restaurant <strong>ELS COBERTS</strong></h1>
-                <p>Restaurant xinès</p>
+
+    /* RESET I BASE */
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Gill Sans', Calibri, sans-serif;
+    }
+
+
+    /*
+       NAV - MENU
+       -- Ha d’aparèixer sempre per pantalla a la part superior
+       -- flex
+       -- hover
+    */
+    .nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+    }
+
+    .menu {
+        display: flex; 
+        list-style: none;
+        justify-content: flex-end;
+        background-color: var(--color-fosc);
+        gap: 1.8rem;
+        margin: 0;
+        padding: 1.2rem;
+    }
+
+    .menu li a {
+        text-decoration: none;
+        color: white;
+        font-size: var(--mida-font);
+        padding-bottom: 2px;
+        /* Hover subratlla l'element */
+        border-bottom: 2px solid transparent;
+        transition: border-bottom 0.2s ease;
+    }
+
+    .menu li a:hover {
+        border-bottom: 2px solid white;
+    }
+
+
+    /* 
+       HEADER - CAPÇALERA
+       -- Ha de tenir una imatge que ocupi tota l’amplada del navegador.
+       -- Adaptable a altres diferents navegadors.
+       -- Ha de tenir un text que quedi posicionat sobre de la imatge al centre del costat esquerra.
+       -- els Coberts del text ha de ser amb bold.
+    */
+    #header {
+        position: relative;
+        margin-top: 0;
+    }
+
+    #header img {
+        width: 100%;
+        display: block;
+        opacity: 0.6;
+    }
+
+    .titol {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        color: white;
+    }
+
+    .titol h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    .titol p {
+        margin: 0.3rem 0 0;
+        font-size: 1rem;
+    }
+
+    /* SECCIONS GENERALS */
+    section {
+        padding: 2.5rem;
+        scroll-margin-top: 3rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    /*
+       SOBRE NOSALTRES
+       -- Podeu fer la maquetació amb flex o grid.
+       -- Les dues imatges han de ser tenir els contorns arrodonits
+    */
+    .nosaltres_container1,
+    .nosaltres_container2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .nosaltres_container1 img,
+    .nosaltres_container2 img {
+        width: 100%;
+        max-width: 20rem;
+        border-radius: 1rem;
+    }
+
+    .nosaltres_container2 .nosaltres_text {
+        order: -1;
+    }
+
+    /* 
+       CARTA
+       -- Tots els elements (menys h2) en un únic grid
+       -- Per cada imatge: un text en el centre a la part inferior tal i com es mostra a la imatge anterior
+    */
+    .carta_container {
+        display: grid;
+        grid-template-columns: 35% 65%;
+        grid-template-areas:
+            "carta_menu carta_menu"
+            "menu1      contingut1"
+            "menu2      contingut2";
+        gap: 1.8rem;
+        border: 1px solid #ddd;
+        padding: 1rem;
+    }
+
+    .carta_menu  { grid-area: carta_menu; text-align: center; font-size: 1.2rem; font-weight: bold; }
+    .menu1       { grid-area: menu1; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .menu2       { grid-area: menu2; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .contingut1  { grid-area: contingut1; }
+    .contingut2  { grid-area: contingut2; }
+
+    .img_comida {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .img_comida_item {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .img_comida_item img {
+        width: 100%;
+        display: block;
+    }
+
+    .img_overlay_text {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.3rem 0;
+        font-size: 0.85rem;
+    }
+
+
+    /* 
+       GALERIA DE FOTOS
+       -- Flex
+       -- Cada imatge tindrà un border
+       -- Imatges 1,4,5,8 més fosques
+       -- Hover: border i imatge més fosca
+    */
+    .galeria_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .galeria_item {
+        overflow: hidden;
+        border: 3px solid #ccc;
+        flex: 1 1 10rem;
+        max-width: 12rem;
+    }
+
+    .galeria_item img {
+        width: 100%;
+        display: block;
+    }
+
+    .galeria_item:hover {
+        border-color: var(--color-principal);
+    }
+
+    .galeria_item:hover img {
+        filter: brightness(0.5);
+    }
+
+    .galeria_item:nth-child(1) img,
+    .galeria_item:nth-child(4) img,
+    .galeria_item:nth-child(5) img,
+    .galeria_item:nth-child(8) img {
+        filter: brightness(0.6);
+    }
+
+    .galeria_item:nth-child(1):hover img,
+    .galeria_item:nth-child(4):hover img,
+    .galeria_item:nth-child(5):hover img,
+    .galeria_item:nth-child(8):hover img {
+        filter: brightness(0.4);
+    }
+
+
+    /* FORMULARI */
+    #formulari {
+        background-color: var(--color-clar);
+    }
+
+    .form_container {
+        display: grid;
+        grid-template-columns: 40% 40%;
+        grid-template-areas:
+            "nom       num"
+            "data      hora"
+            "descripcio descripcio"
+            "button    button";
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .nom        { grid-area: nom; }
+    .num        { grid-area: num; }
+    .data_camp  { grid-area: data; }
+    .hora_camp  { grid-area: hora; }
+    .descripcio { grid-area: descripcio; }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: var(--mida-font);
+    }
+
+    .button {
+        grid-area: button;
+        background-color: var(--color-principal);
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: var(--mida-font);
+    }
+
+    .button:hover {
+        background-color: #6a110c;
+    }
+
+
+    /* 
+       FOOTER
+       -- Flex o grid
+       -- Utilitzar icones de google per @ i telf
+       -- A la part esquerra hi ha d’haver un logotip
+    */
+    .footer_container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: var(--color-fosc);
+        color: white;
+        font-size: var(--mida-font);
+    }
+
+    .footer_item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .footer_item .material-icons {
+        font-size: 1.2rem;
+    }
+
+    .logo img {
+        width: 3rem;
+    }
+
+
+    /* 
+        BOTÓ RESERVAR
+        -- Ha d’aparèixer sempre per pantalla a la part inferior dreta
+    */
+    .reservar {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: var(--color-principal);
+        color: white;
+        padding: 1rem;
+        text-decoration: none;
+        font-size: var(--mida-font);
+        z-index: 200;
+    }
+
+    .reservar:hover {
+        background-color: #6a110c;
+    }
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAV - MENU -->
+<nav class="nav" id="navbar">
+
+    <ul class="menu">
+        <li><a href="#sobre_nosaltres">NOSALTRES</a></li>
+        <li><a href="#carta">CARTA</a></li>
+        <li><a href="#galeria">GALERIA</a></li>
+    </ul>
+
+</nav>
+
+<!-- HEADER - Capçalera -->
+<header id="header">
+
+    <img src="img/restaurant.webp" alt="Imatge del restaurant">
+
+    <div class="titol">
+        <h1>Restaurant <strong>els Coberts</strong></h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+
+</header>
+
+<main>
+
+    <!-- SOBRE NOSALTRES -->
+    <section id="sobre_nosaltres">
+
+        <h2>Sobre Nosaltres</h2>
+
+        <!-- Fila 1: imatge esquerra, text dreta -->
+        <div class="nosaltres_container1">
+            <img src="img/img1.png" alt="Interior del restaurant">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+               quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+               consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+               dolore eu fugiat nulla pariatur.</p>
+        </div>
+
+        <!-- Fila 2: text esquerra, imatge dreta -->
+        <div class="nosaltres_container2">
+            <img src="img/img2.png" alt="Cuina del restaurant">
+            <p class="nosaltres_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+               quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+               consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+               dolore eu fugiat nulla pariatur.</p>
+        </div>
+
+    </section>
+
+    <!-- CARTA -->
+    <section id="carta">
+        
+        <h2>Carta</h2>
+        <!-- Tots els elements de la carta -->
+        <div class="carta_container">
+
+            <!-- Menú TOTAL-->
+            <div class="carta_menu">Menú</div>
+
+            <!-- Menú 1 -->
+            <div class="menu1">Menú 1</div>
+
+            <!-- Contingut 1 -->
+            <div class="contingut1">
+
+                <p><strong>Contingut</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                   tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                <div class="img_comida">
+
+                    <div class="img_comida_item">
+                        <img src="img/ensalada.png" alt="Amanida">
+                        <!-- Text overlay a la part inferior central de la imatge -->
+                        <div class="img_overlay_text">Amanida</div>
+                    </div>
+
+                    <div class="img_comida_item">
+                        <img src="img/entrantes.png" alt="Entrants">
+                        <div class="img_overlay_text">Entrants</div>
+                    </div>
+
+                </div>
             </div>
-        </header>
 
-        <main>
-            <!-- SOBRE NOSALTRES -->
-            <section id="sobre_nosaltres">
-                <h2>Sobre Nosaltres</h2>
-                <div class="nosaltres_container1">
-                    <img src="img/img1.png" alt="Sobre nosaltres">
-                    <p> xxxxxx xxxxxx xxxxx xxxxxx xxxxxx xxxx xxxxxx xxxxx xxxxxx xxxxxx xxxxx xxxxxx xxxxxx xxxxx</p>
-                </div>
-                <div class="nosaltres_container2">    
-                    <p>xxxx xxxxxx xxxxx xxxxxx xxxxxx xxx xxxx xxxxx xxxxxx xxxx xxxx xxxxxxxx xxxxxxx xxxx xxxx</p>
-                    <img src="img/img2.png" alt="Sobre nosaltres">
-                </div>
-            </section>
+            <!-- Menú 2 -->
+            <div class="menu2">Menú 2</div>
 
-            <!-- CARTA -->
-            <section id="carta">
-                <h2>Carta</h2>
-                <div class="carta_container">
+            <!-- Contingut 2 -->
+            <div class="contingut2">
 
-                    <div class="carta_menu">Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú Menú </div>
+                <p><strong>Contingut</strong></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                   tempor incididunt ut labore et dolore magna aliqua.</p>
 
-                    <div class="menu1">
-                        <img src="/img/menu1.jpeg" alt="menu1 del restaurant els corbets">
+                <div class="img_comida">
+
+                    <div class="img_comida_item">
+                        <img src="img/fideos.png" alt="Fideus">
+                        <div class="img_overlay_text">Fideus</div>
                     </div>
 
-                    <div class="menu2">
-                        <img src="/img/menu2.jpeg" alt="menu2 del restaurant els corbets">
+                    <div class="img_comida_item">
+                        <img src="img/sopa.png" alt="Sopa">
+                        <div class="img_overlay_text">Sopa</div>
                     </div>
 
-                    <div class="contingut1">
-                        <h3>Contingut</h3>
-                        <p>xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx</p>
-                        <div class="img_comida">
-                            <div class="img_comida1">
-                                <img src="/img/ensalada.png" alt="contingut_img1 del restaurant els corbets">
-                                <div class="text">AMANIDA</div>
-                            </div>
-                            <div class="img_comida2">
-                                <img src="/img/entrantes.png" alt="contingut_img2 del restaurant els corbets">
-                                <div class="text">ENTRANTS</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contingut2">
-                        <h3>Contingut</h3>
-                        <p>xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx xxx xxxxxxxx xx x x x x xxxxxxx xxxxxx x xxxxx</p>
-                        <div class="img_comida">
-                            <div class="img_comida1">
-                                <img src="/img/sopa.png" alt="contingut_img3 del restaurant els corbets">
-                                <div class="text">SOPA</div>
-                            </div>
-                            <div class="img_comida2">
-                                <img src="/img/fideos.png" alt="contingut_img4 del restaurant els corbets">
-                                <div class="text">FIDEUS</div>
-                            </div>
-                        </div>
-                        
-                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- GALERIA -->
-            <section id="galeria">
-                <h2>Galeria d'imatges</h2>
-                <div class="galeria_container">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                    <img src="/img/galeria.png" alt="galeria del restaurant els corbets">
-                </div>
-            </section>
+        </div>
+    </section>
+
+    <!-- GALERIA DE FOTOS -->
+    <section id="galeria">
+
+        <h2>Galeria d'imatges</h2>
+
+        <div class="galeria_container">
             
-            <!-- FORMULARI -->
-            <section id="formulari">
-                <h2>Reserva</h2>
-                <form>
-                    <div class="form_container">
-                        <div class="nom">
-                            <label for="nom">NOM</label>
-                            <input id="nom" name="nom" type="text" required>
-                        </div>
-                        <div class="num">
-                            <label for="num">NÚMERO DE PERSONES</label>
-                            <input id="num" name="num" type="number" required>
-                        </div>
-                        <div class="data">
-                            <label for="data">DATA</label>
-                            <input id="data" name="data" type="date" required>
-                        </div>
-                        <div class="hora">
-                            <label for="hora">HORA</label>
-                            <input id="hora" name="hora" type="time" required>
-                        </div>
-                        <div class="descripcio">
-                            <label for="descripcio">DESCRIPCIÓ</label>
-                            <textarea id="descripcio" name="descripcio" rows="5" cols="100%"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="button">RESERVAR</button>
-                </form>
-            </section>
-            
-            <!-- FOOTER -->
-            <footer>
-                <div class="footer_container">
-                    <div class="email_tel">
-                        <div class="email">
-                            <span class="material-icons">email</span>restaurant@gmail.com
-                        </div>
-                        <div class="tel">
-                            <span class="material-icons">call</span>666 66 66 66
-                        </div>
-                    </div>
-                    <div class="logo">
-                        <img src="/svg/rice.svg" alt="logo del restaurant els corbets">
-                    </div>
-                </div>
-            </footer>
-        </main>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 1"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 2"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 3"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 4"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 5"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 6"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 7"></div>
+            <div class="galeria_item"><img src="img/galeria.png" alt="Galeria 8"></div>
+        
+        </div>
 
-        <!-- BOTÓ RESERVAR -->
-        <a href="#formulari" class="reservar">RESERVAR</a>
+    </section>
 
-    </body>
+    <!-- FORMULARI -->
+    <section id="formulari">
+
+        <h2>Reserva</h2>
+
+        <div class="form_container">
+
+            <div class="nom">
+                <label for="inp_nom">Nom</label>
+                <input type="text" id="inp_nom" placeholder="Nom">
+            </div>
+
+            <div class="num">
+                <label for="inp_num">Número de persones</label>
+                <input type="number" id="inp_num" placeholder="Persones" min="1">
+            </div>
+
+            <div class="data_camp">
+                <label for="inp_data">Data</label>
+                <input type="date" id="inp_data">
+            </div>
+
+            <div class="hora_camp">
+                <label for="inp_hora">Hora</label>
+                <input type="time" id="inp_hora">
+            </div>
+
+            <div class="descripcio">
+                <label for="inp_desc">Descripció</label>
+                <textarea id="inp_desc" rows="4"></textarea>
+            </div>
+
+            <button class="button">Reservar</button>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    
+    <div class="footer_container">
+
+        <!-- Logotip  -->
+        <div class="logo">
+            <img src="img/rice.png" alt="Logo restaurant">
+        </div>
+
+        <!-- Correu  -->
+        <div class="footer_item">
+            <span class="material-icons" aria-hidden="true">email</span>
+            <span>restaurant@gmail.com</span>
+        </div>
+
+        <!-- Telèfon  -->
+        <div class="footer_item">
+            <span class="material-icons" aria-hidden="true">phone</span>
+            <span>666 66 66 66</span>
+        </div>
+
+    </div>
+</footer>
+
+<!-- Botó reservar -->
+<a href="#formulari" class="reservar">RESERVAR</a>
+
+</body>
 </html>
